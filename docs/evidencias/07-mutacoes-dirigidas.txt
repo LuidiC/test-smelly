@@ -1,0 +1,373 @@
+Controle sem mutacao: original e limpa passam.
+idade-minima-removida: original=nao detectou; limpa=detectou
+  Mutacao: if (idade < 18) -> if (false)
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (2 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida
+      √ cria um administrador quando a permissão é solicitada
+      √ aceita um usuário com exatamente 18 anos
+      × rejeita um usuário menor de idade (1 ms)
+      √ rejeita a criação quando nome está ausente (1 ms)
+      √ rejeita a criação quando email está ausente (1 ms)
+      √ rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos (1 ms)
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro (1 ms)
+      √ recusa desativar um administrador e mantém seu status ativo
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados
+      √ informa o status ativo de um usuário recém-cadastrado
+      √ mantém o usuário desativado no relatório com o status inativo
+
+  ● UserService - comportamentos do gerenciamento de usuários › createUser › rejeita um usuário menor de idade
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "O usuário deve ser maior de idade."
+
+    Received function did not throw
+
+      67 |
+      68 |       // Assert
+    > 69 |       expect(criarMenor).toThrow('O usuário deve ser maior de idade.');
+         |                          ^
+      70 |     });
+      71 |
+      72 |     test.each([
+
+      at Object.<anonymous> (__tests__/userService.clean.test.js:69:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 17 passed, 18 total
+Snapshots:   0 total
+Time:        0.26 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+limite-de-18-anos-rejeitado: original=nao detectou; limpa=detectou
+  Mutacao: if (idade < 18) -> if (idade <= 18)
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (2 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida
+      √ cria um administrador quando a permissão é solicitada (1 ms)
+      × aceita um usuário com exatamente 18 anos
+      √ rejeita um usuário menor de idade (1 ms)
+      √ rejeita a criação quando nome está ausente
+      √ rejeita a criação quando email está ausente (1 ms)
+      √ rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos (1 ms)
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro (1 ms)
+      √ recusa desativar um administrador e mantém seu status ativo
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados (1 ms)
+      √ informa o status ativo de um usuário recém-cadastrado
+      √ mantém o usuário desativado no relatório com o status inativo
+
+  ● UserService - comportamentos do gerenciamento de usuários › createUser › aceita um usuário com exatamente 18 anos
+
+    O usuário deve ser maior de idade.
+
+      13 |     }
+      14 |     if (idade <= 18) {
+    > 15 |       throw new Error('O usuário deve ser maior de idade.');
+         |             ^
+      16 |     }
+      17 |
+      18 |     const id = crypto.randomBytes(16).toString('hex');
+
+      at UserService.createUser (src/userService.js:15:13)
+      at Object.<anonymous> (__tests__/userService.clean.test.js:55:35)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 17 passed, 18 total
+Snapshots:   0 total
+Time:        0.271 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+administrador-pode-ser-desativado: original=detectou; limpa=detectou
+  Mutacao: if (user.isAdmin) -> if (false)
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (1 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida
+      √ cria um administrador quando a permissão é solicitada (1 ms)
+      √ aceita um usuário com exatamente 18 anos
+      √ rejeita um usuário menor de idade (2 ms)
+      √ rejeita a criação quando nome está ausente
+      √ rejeita a criação quando email está ausente
+      √ rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro
+      × recusa desativar um administrador e mantém seu status ativo (1 ms)
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados
+      √ informa o status ativo de um usuário recém-cadastrado (1 ms)
+      √ mantém o usuário desativado no relatório com o status inativo
+
+  ● UserService - comportamentos do gerenciamento de usuários › deactivateUser › recusa desativar um administrador e mantém seu status ativo
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      155 |
+      156 |       // Assert
+    > 157 |       expect(resultado).toBe(false);
+          |                         ^
+      158 |       expect(userService.getUserById(admin.id)).toEqual(expect.objectContaining({
+      159 |         id: admin.id,
+      160 |         isAdmin: true,
+
+      at Object.<anonymous> (__tests__/userService.clean.test.js:157:25)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 17 passed, 18 total
+Snapshots:   0 total
+Time:        0.268 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+status-nao-atualizado: original=detectou; limpa=detectou
+  Mutacao: user.status = 'inativo'; -> user.status = 'ativo';
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (2 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida
+      √ cria um administrador quando a permissão é solicitada (1 ms)
+      √ aceita um usuário com exatamente 18 anos
+      √ rejeita um usuário menor de idade (4 ms)
+      √ rejeita a criação quando nome está ausente (1 ms)
+      √ rejeita a criação quando email está ausente (1 ms)
+      √ rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos (1 ms)
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado (1 ms)
+    deactivateUser
+      × desativa um usuário comum e preserva seu cadastro (4 ms)
+      √ recusa desativar um administrador e mantém seu status ativo (1 ms)
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados
+      √ informa o status ativo de um usuário recém-cadastrado
+      × mantém o usuário desativado no relatório com o status inativo
+
+  ● UserService - comportamentos do gerenciamento de usuários › deactivateUser › desativa um usuário comum e preserva seu cadastro
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 3
+
+    - ObjectContaining {
+    + Object {
+    +   "createdAt": 2026-10-18T19:55:47.642Z,
+        "email": "comum@teste.com",
+        "id": "481883e8e5b31083cc1180de34eab5ce",
+        "idade": 30,
+        "isAdmin": false,
+        "nome": "Comum",
+    -   "status": "inativo",
+    +   "status": "ativo",
+      }
+
+      137 |       // Assert
+      138 |       expect(resultado).toBe(true);
+    > 139 |       expect(userService.getUserById(usuario.id)).toEqual(expect.objectContaining({
+          |                                                   ^
+      140 |         id: usuario.id,
+      141 |         nome: 'Comum',
+      142 |         email: 'comum@teste.com',
+
+      at Object.<anonymous> (__tests__/userService.clean.test.js:139:51)
+
+  ● UserService - comportamentos do gerenciamento de usuários › generateUserReport › mantém o usuário desativado no relatório com o status inativo
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "inativo"
+    Received string:    "--- Relatório de Usuários ---
+    ID: e164429bc4e4a3e3467e65036a4c0d41, Nome: Alice, Status: ativo
+    "
+
+      226 |       expect(relatorio).toContain(usuario.id);
+      227 |       expect(relatorio).toContain('Alice');
+    > 228 |       expect(relatorio).toContain('inativo');
+          |                         ^
+      229 |     });
+      230 |   });
+      231 | });
+
+      at Object.<anonymous> (__tests__/userService.clean.test.js:228:25)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 16 passed, 18 total
+Snapshots:   0 total
+Time:        0.271 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+relatorio-omite-bob: original=nao detectou; limpa=detectou
+  Mutacao: Object.values(db.users) -> Object.values(db.users).filter(user => user.nome !== 'Bob')
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (3 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida (1 ms)
+      √ cria um administrador quando a permissão é solicitada
+      √ aceita um usuário com exatamente 18 anos (1 ms)
+      √ rejeita um usuário menor de idade (2 ms)
+      √ rejeita a criação quando nome está ausente (1 ms)
+      √ rejeita a criação quando email está ausente
+      √ rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos (2 ms)
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado (1 ms)
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro
+      √ recusa desativar um administrador e mantém seu status ativo
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      × inclui os identificadores e nomes de todos os usuários cadastrados (1 ms)
+      √ informa o status ativo de um usuário recém-cadastrado
+      √ mantém o usuário desativado no relatório com o status inativo
+
+  ● UserService - comportamentos do gerenciamento de usuários › generateUserReport › inclui os identificadores e nomes de todos os usuários cadastrados
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "f09bc8591936b6ac9bd60e0c59f04ca5"
+    Received string:    "--- Relatório de Usuários ---
+    ID: 93ddf1e7318df0a55a95a7b80331dd57, Nome: Alice, Status: ativo
+    "
+
+      199 |       expect(relatorio).toContain(alice.id);
+      200 |       expect(relatorio).toContain('Alice');
+    > 201 |       expect(relatorio).toContain(bob.id);
+          |                         ^
+      202 |       expect(relatorio).toContain('Bob');
+      203 |     });
+      204 |
+
+      at Object.<anonymous> (__tests__/userService.clean.test.js:201:25)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 17 passed, 18 total
+Snapshots:   0 total
+Time:        0.257 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+campos-obrigatorios-nao-validados: original=nao detectou; limpa=detectou
+  Mutacao: if (!nome || !email || !idade) -> if (false)
+FAIL __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (2 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida (1 ms)
+      √ cria um administrador quando a permissão é solicitada
+      √ aceita um usuário com exatamente 18 anos
+      √ rejeita um usuário menor de idade (3 ms)
+      × rejeita a criação quando nome está ausente (1 ms)
+      × rejeita a criação quando email está ausente (1 ms)
+      × rejeita a criação quando idade está ausente
+      √ atribui identificadores diferentes a usuários distintos
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro
+      √ recusa desativar um administrador e mantém seu status ativo (1 ms)
+      √ retorna false ao tentar desativar um usuário inexistente
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados
+      √ informa o status ativo de um usuário recém-cadastrado
+      √ mantém o usuário desativado no relatório com o status inativo (1 ms)
+
+  ● UserService - comportamentos do gerenciamento de usuários › createUser › rejeita a criação quando nome está ausente
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "Nome, email e idade são obrigatórios."
+
+    Received function did not throw
+
+      82 |
+      83 |       // Assert
+    > 84 |       expect(criarSemCampo).toThrow('Nome, email e idade são obrigatórios.');
+         |                             ^
+      85 |     });
+      86 |
+      87 |     test('atribui identificadores diferentes a usuários distintos', () => {
+
+      at __tests__/userService.clean.test.js:84:29
+
+  ● UserService - comportamentos do gerenciamento de usuários › createUser › rejeita a criação quando email está ausente
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "Nome, email e idade são obrigatórios."
+
+    Received function did not throw
+
+      82 |
+      83 |       // Assert
+    > 84 |       expect(criarSemCampo).toThrow('Nome, email e idade são obrigatórios.');
+         |                             ^
+      85 |     });
+      86 |
+      87 |     test('atribui identificadores diferentes a usuários distintos', () => {
+
+      at __tests__/userService.clean.test.js:84:29
+
+  ● UserService - comportamentos do gerenciamento de usuários › createUser › rejeita a criação quando idade está ausente
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "Nome, email e idade são obrigatórios."
+
+    Received function did not throw
+
+      82 |
+      83 |       // Assert
+    > 84 |       expect(criarSemCampo).toThrow('Nome, email e idade são obrigatórios.');
+         |                             ^
+      85 |     });
+      86 |
+      87 |     test('atribui identificadores diferentes a usuários distintos', () => {
+
+      at __tests__/userService.clean.test.js:84:29
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 15 passed, 18 total
+Snapshots:   0 total
+Time:        0.297 s
+Ran all test suites matching /userService.clean.test.js/i.
+
+Resumo: 6 de 6 alteracoes deliberadas detectadas pela suite limpa.
+Experimento dirigido, nao equivale a um escore de mutacao completo.
+Fonte de negocio do repositorio nunca foi modificada.

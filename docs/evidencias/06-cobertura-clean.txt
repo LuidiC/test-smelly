@@ -1,0 +1,41 @@
+
+> test-smells-lab@1.0.0 coverage
+> jest --coverage --runInBand --collectCoverageFrom=src/userService.js --testPathPattern=userService.clean.test.js
+
+PASS __tests__/userService.clean.test.js
+  UserService - comportamentos do gerenciamento de usuários
+    createUser
+      √ cria um usuário ativo com os dados informados e um identificador (2 ms)
+      √ cria um usuário comum quando a permissão de administrador é omitida (1 ms)
+      √ cria um administrador quando a permissão é solicitada
+      √ aceita um usuário com exatamente 18 anos
+      √ rejeita um usuário menor de idade (9 ms)
+      √ rejeita a criação quando nome está ausente (1 ms)
+      √ rejeita a criação quando email está ausente
+      √ rejeita a criação quando idade está ausente (1 ms)
+      √ atribui identificadores diferentes a usuários distintos
+    getUserById
+      √ recupera os dados de um usuário cadastrado pelo identificador retornado
+      √ retorna null para um identificador não cadastrado
+    deactivateUser
+      √ desativa um usuário comum e preserva seu cadastro
+      √ recusa desativar um administrador e mantém seu status ativo
+      √ retorna false ao tentar desativar um usuário inexistente (1 ms)
+    generateUserReport
+      √ informa a ausência de usuários quando não há cadastros
+      √ inclui os identificadores e nomes de todos os usuários cadastrados
+      √ informa o status ativo de um usuário recém-cadastrado
+      √ mantém o usuário desativado no relatório com o status inativo (1 ms)
+
+----------------|---------|----------|---------|---------|-------------------
+File            | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------------|---------|----------|---------|---------|-------------------
+All files       |     100 |      100 |     100 |     100 |                   
+ userService.js |     100 |      100 |     100 |     100 |                   
+----------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       18 passed, 18 total
+Snapshots:   0 total
+Time:        0.575 s, estimated 1 s
+Ran all test suites matching /userService.clean.test.js/i.
+EXIT_CODE=0

@@ -1,30 +1,80 @@
 # Laboratório de Test Smells - Gerenciador de Usuários
 
-Este repositório serve como base para o trabalho prático sobre **Test Smells** na disciplina de Teste de Software. Ele contém uma suíte de testes que, apesar de passar, está repleta de "maus cheiros" (smells) que comprometem sua qualidade, manutenibilidade e eficácia.
+Atividade da disciplina **Teste de Software**: identificação de Test Smells, configuração do ESLint e refatoração de testes Jest com o padrão **Arrange, Act, Assert (AAA)**.
 
-## Contexto do Projeto
+**Aluno:** Luidi Cadete Silva · **Matrícula:** 1447551
 
-Imagine que você foi contratado(a) como Engenheiro(a) de Qualidade de Software em uma equipe que está desenvolvendo um serviço de gerenciamento de usuários (`UserService`).
+O serviço simula criação, consulta, desativação e relatório de usuários em memória. Test Smells são sinais de problemas nos testes que dificultam sua compreensão, manutenção ou capacidade de revelar defeitos.
 
-A suíte de testes em `__tests__/userService.smelly.test.js` foi escrita por um desenvolvedor que se concentrou apenas em fazer os testes passarem, sem se preocupar com boas práticas. O resultado é um código de teste frágil, obscuro e difícil de manter.
+## Origem e preservação
 
-Sua missão é analisar, diagnosticar e refatorar essa suíte de testes, transformando-a em um exemplo de código de teste limpo e robusto.
+Fork de [CleitonSilvaT/test-smelly](https://github.com/CleitonSilvaT/test-smelly), com os créditos e o histórico do professor preservados. Base: `fc5cc1206e9bcd40d5b6c705d48a67659672c6c5`.
 
-## Sua Missão
+O original armazenava a suíte em `test/`, embora o enunciado e o README indicassem `__tests__/`. Ela foi movida para o caminho exigido **sem alteração de conteúdo**; o SHA-256 está em [original-preservado.txt](docs/evidencias/original-preservado.txt). A lógica de `src/userService.js` permanece intacta.
 
-Seu trabalho será dividido em três etapas principais:
+## Tecnologias e instalação
 
-1.  **Analisar:** Identificar manualmente e com a ajuda de ferramentas de análise estática (ESLint) os diferentes Test Smells presentes no código.
-2.  **Refatorar:** Reescrever os testes em um novo arquivo (`userService.clean.test.js`), corrigindo os problemas encontrados e aplicando as melhores práticas, como o padrão **Arrange, Act, Assert (AAA)**.
-3.  **Validar:** Provar que a refatoração foi bem-sucedida, garantindo que os novos testes passem, estejam livres de avisos do linter e sejam mais claros e eficazes.
-
-## Como Começar (Setup)
-
-Siga os passos abaixo para preparar seu ambiente de trabalho.
-
-**1. Clone o repositório:**
+JavaScript, Node.js, npm, Jest, Babel, ESLint e eslint-plugin-jest. Ambiente validado: Node **24.14.1**, npm **11.11.0**, Jest **29.7.0**, ESLint **8.57.1** e eslint-plugin-jest **28.14.0**.
 
 ```bash
-git clone [URL_DO_SEU_FORK_DO_REPOSITORIO]
+git clone https://github.com/LuidiC/test-smelly.git
 cd test-smelly
+npm ci
 ```
+
+O lockfile foi incluído para fixar as dependências. A instalação inicial foi feita com `npm install`.
+
+O ESLint 8.57.1 aceita `.eslintrc.json` diretamente. Essa versão está fora de suporte; o uso atende ao formato legado da atividade. O plugin 28.14.0 é compatível com essa versão e com o Node utilizado. A configuração mantém as três regras obrigatórias e os presets recomendados de ESLint/Jest. [Documentação oficial sobre migração](https://eslint.org/docs/latest/use/configure/migration-guide).
+
+## Executar e validar
+
+```bash
+npm test
+npx eslint .
+npm run lint:clean
+npm run coverage -- --runInBand --collectCoverageFrom=src/userService.js --testPathPattern=userService.clean.test.js
+```
+
+`npm test`: **22 testes passaram** (4 originais + 18 limpos), **1 original ignorado**, 0 falhas, 2 suítes aprovadas. A suíte limpa não tem testes ignorados. O `test.skip` original foi preservado; seu cenário foi implementado como relatório sem usuários na suíte nova, pois a API retorna texto, não uma lista.
+
+`npx eslint .`: código **1**, com **4 erros e 2 avisos exclusivamente no original preservado**. Isso é esperado e permanece visível; não há exclusão do original nem desativação de regras. `npm run lint:clean`: código **0**, sem erros ou avisos, com `--max-warnings=0`.
+
+A suíte limpa isolada atingiu **100% de linhas, instruções, funções e ramificações** do serviço. Detectou seis mutações dirigidas; a original detectou duas. Esse experimento limitado não equivale a um escore completo de mutação nem prova ausência de defeitos.
+
+## Análise e melhorias
+
+- **Eager Test:** criação e consulta separadas em casos focados.
+- **Lógica condicional:** cenários de usuário comum e administrador separados, sem `if`, `for` ou `try/catch` nos testes limpos.
+- **Teste frágil:** relatório verificado pelos dados e estados, sem depender de cabeçalho, pontuação, quebra de linha ou ordem.
+- **Falso positivo na exceção:** `toThrow` exige que a operação realmente lance o erro.
+- **Teste ignorado/vazio:** cenário sem usuários implementado no arquivo novo.
+
+Cada teste explicita AAA. O `beforeEach` recria o serviço e limpa o banco compartilhado. Foram acrescentadas verificações de campos obrigatórios, idade limite, identificadores distintos, consulta inexistente, bloqueio de administrador e preservação do cadastro após desativação. [Análise com linhas, riscos e decisões](docs/analise.md).
+
+## Entrega e estrutura
+
+```text
+__tests__/
+  userService.smelly.test.js   # original preservado
+  userService.clean.test.js    # 18 testes executados
+src/userService.js            # serviço original
+docs/
+  analise.md                  # diagnóstico e auditoria
+  gerar_relatorio.py          # fonte editável
+  evidencias/                 # saídas reais dos comandos
+output/pdf/
+  relatorio-test-smells-luidi-cadete-silva-1447551.pdf
+.eslintrc.json
+package.json
+package-lock.json
+```
+
+O relatório tem quatro páginas: capa, análise, antes/depois, resultado da ferramenta e conclusão. As [evidências](docs/evidencias/README.md) contêm saídas autênticas. O ambiente não disponibilizou captura de imagem do terminal: o relatório registra a limitação e inclui a saída textual real da primeira execução do ESLint, sem fabricar um print.
+
+Para regenerar o PDF, instale `reportlab` em um ambiente Python e execute `python docs/gerar_relatorio.py` na raiz do projeto. Envie ao professor o [link deste fork](https://github.com/LuidiC/test-smelly) e o [relatório PDF](output/pdf/relatorio-test-smells-luidi-cadete-silva-1447551.pdf).
+
+## Referências e créditos
+
+- Enunciado do professor: *Refatoração de Testes e Detecção de Test Smells*, quatro páginas.
+- [Projeto original de CleitonSilvaT](https://github.com/CleitonSilvaT/test-smelly).
+- [Documentação oficial de eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest).

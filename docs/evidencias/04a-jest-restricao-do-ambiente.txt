@@ -1,0 +1,36 @@
+
+> test-smells-lab@1.0.0 test
+> jest --runInBand
+
+FAIL __tests__/userService.clean.test.js
+  ● Test suite failed to run
+
+    jest: failed to cache transform results in: C:/Users/Stron/AppData/Local/Packages/sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}/AC/Temp/jest/jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338/9b/userServicecleantest_9bdcb1bcba36785d2383822d6c6684cc.map
+    Failure message: EPERM: operation not permitted, rename 'C:\Users\Stron\AppData\Local\Packages\sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}\AC\Temp\jest\jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338\9b\userServicecleantest_9bdcb1bcba36785d2383822d6c6684cc.map.2867801988' -> 'C:\Users\Stron\AppData\Local\Packages\sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}\AC\Temp\jest\jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338\9b\userServicecleantest_9bdcb1bcba36785d2383822d6c6684cc.map'
+
+      at writeFileSync (node_modules/write-file-atomic/lib/index.js:252:8)
+      at writeCacheFile (node_modules/@jest/transform/build/ScriptTransformer.js:908:33)
+      at ScriptTransformer._buildTransformResult (node_modules/@jest/transform/build/ScriptTransformer.js:510:7)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:554:17)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+
+FAIL __tests__/userService.smelly.test.js
+  ● Test suite failed to run
+
+    jest: failed to cache transform results in: C:/Users/Stron/AppData/Local/Packages/sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}/AC/Temp/jest/jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338/e8/userServicesmellytest_e84d3c577a9a97f61cd855be33e5465e.map
+    Failure message: EPERM: operation not permitted, rename 'C:\Users\Stron\AppData\Local\Packages\sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}\AC\Temp\jest\jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338\e8\userServicesmellytest_e84d3c577a9a97f61cd855be33e5465e.map.326102660' -> 'C:\Users\Stron\AppData\Local\Packages\sandbox.{b10c6ca1-e59a-483b-a9cb-592e2bda09f3}\AC\Temp\jest\jest-transform-cache-c63a27ae79d43da95a670d3db688cc37-79ef2876fae7ca75eedb2aa53dc48338\e8\userServicesmellytest_e84d3c577a9a97f61cd855be33e5465e.map'
+
+      at writeFileSync (node_modules/write-file-atomic/lib/index.js:252:8)
+      at writeCacheFile (node_modules/@jest/transform/build/ScriptTransformer.js:908:33)
+      at ScriptTransformer._buildTransformResult (node_modules/@jest/transform/build/ScriptTransformer.js:510:7)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:554:17)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.672 s
+Ran all test suites.
+EXIT_CODE=1
