@@ -1,0 +1,18 @@
+
+> test-smells-lab@1.0.0 test
+> jest
+
+PASS __tests__/userService.smelly.test.js
+PASS __tests__/userService.clean.test.js
+
+Test Suites: 2 passed, 2 total
+Tests:       1 skipped, 22 passed, 23 total
+Snapshots:   0 total
+Time:        0.36 s, estimated 1 s
+Ran all test suites.
+JEST_EXIT_CODE=0
+
+> test-smells-lab@1.0.0 lint:clean
+> eslint __tests__/userService.clean.test.js --max-warnings=0
+
+ESLINT_CLEAN_EXIT_CODE=0

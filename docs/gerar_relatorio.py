@@ -10,12 +10,15 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
-    HRFlowable, KeepTogether, PageBreak, Paragraph, Preformatted,
+    HRFlowable, Image, KeepTogether, PageBreak, Paragraph, Preformatted,
     SimpleDocTemplate, Spacer, Table, TableStyle,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'output/pdf/relatorio-test-smells-luidi-cadete-silva-1447551.pdf'
+SCREENSHOT = ROOT / 'docs/evidencias/eslint-inicial.png'
+if not SCREENSHOT.is_file():
+    raise FileNotFoundError(f'Captura real do ESLint não encontrada: {SCREENSHOT}')
 OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 FONT_DIR = Path('C:/Windows/Fonts')
 
@@ -160,26 +163,27 @@ item('Verificação da capacidade de detectar defeitos',
      'no relatório e campos obrigatórios. A suíte limpa detectou <b>6/6</b>; a original, '
      '<b>2/6</b>. A remoção da idade mínima escapou da original, confirmando o falso '
      'positivo. Esse experimento dirigido não é um escore completo de mutação.')
-story.append(PageBreak())
-
-# Página 4: saída autêntica, validação e conclusão.
-heading('3. Ferramenta, validação e conclusão')
+p('Configuração da ferramenta', 'Sub')
 p('Foram utilizados Node 24.14.1, npm 11.11.0, Jest 29.7.0, ESLint 8.57.1 e '
   'eslint-plugin-jest 28.14.0. O ESLint 8 foi fixado para aceitar o <b>.eslintrc.json</b> '
   'exigido; é uma versão fora de suporte, escolhida por compatibilidade com o enunciado. '
-  'Os presets recomendados e as três regras obrigatórias estão configurados.')
-p('Primeira execução do ESLint', 'Sub')
-p('Trecho da saída textual autêntica de <b>npx eslint .</b>, executado antes da criação '
-  'da suíte limpa. O caminho absoluto foi omitido neste trecho. O ambiente não '
-  'disponibilizou captura de imagem do terminal; este bloco é uma transcrição real, '
-  '<b>não um print</b>. A saída integral está em docs/evidencias/02-eslint-inicial.txt.', 'SmallText')
-lint_lines = (ROOT / 'docs/evidencias/02-eslint-inicial.txt').read_text(encoding='utf-8-sig').splitlines()
-lint_excerpt = [line for line in lint_lines if ('error ' in line or 'warning ' in line or 'EXIT_CODE=' in line)]
-assert len(lint_excerpt) == 7
-code('\n'.join(lint_excerpt))
+  'Os presets recomendados e as três regras obrigatórias estão configurados.', 'SmallText')
+story.append(PageBreak())
+
+# Página 4: captura real, validação e conclusão.
+heading('3. Ferramenta, validação e conclusão')
+p('Captura real do ESLint', 'Sub')
+p('<b>Figura 1.</b> Captura manual de <b>npx eslint .</b>: reprodução dos diagnósticos '
+  'iniciais, realizada após a criação da suíte limpa. Os 4 erros e 2 avisos permanecem '
+  'exclusivamente no original preservado. Arquivo: docs/evidencias/eslint-inicial.png.', 'SmallText')
+eslint_image = Image(str(SCREENSHOT))
+eslint_image.drawHeight = 495 * eslint_image.imageHeight / eslint_image.imageWidth
+eslint_image.drawWidth = 495
+story.append(eslint_image)
+story.append(Spacer(1, 9))
 p('Os erros das linhas 44, 46 e 49 apontam asserções no if/else; o da linha 73 '
   'aponta a asserção no catch. Na linha 77, há avisos de teste ignorado e sem '
-  'asserções. A regra de títulos idênticos está ativa, mas não encontrou ocorrência.')
+  'asserções. A regra de títulos idênticos está ativa, mas não encontrou ocorrência.', 'SmallText')
 table_data = [
     ['Validação', 'Resultado registrado'],
     ['Jest original', '4 aprovados; 1 ignorado'],
@@ -201,9 +205,9 @@ table.setStyle(TableStyle([
 story.append(table)
 story.append(Spacer(1, 8))
 p('O diagnóstico global permanece visível porque o original foi preservado; a melhoria '
-  'é comprovada pelo arquivo limpo sem diagnósticos. O único teste ignorado já existia '
-  'no projeto. Uma restrição de cache do sandbox foi resolvida executando o Jest com '
-  'acesso normal, sem mudar o código; ambas as saídas foram preservadas.', 'SmallText')
+  'é comprovada pelo arquivo limpo sem diagnósticos. O único teste ignorado é original. '
+  'Uma restrição de cache foi resolvida com acesso normal, sem alterar código; os logs '
+  'foram preservados.', 'SmallText')
 p('Conclusão', 'Sub')
 p('Testes limpos tornam o comportamento esperado explícito e as falhas mais fáceis de '
   'diagnosticar. A refatoração eliminou fluxos condicionais problemáticos, reduziu '

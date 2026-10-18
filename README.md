@@ -69,7 +69,7 @@ package.json
 package-lock.json
 ```
 
-O relatório tem quatro páginas: capa, análise, antes/depois, resultado da ferramenta e conclusão. As [evidências](docs/evidencias/README.md) contêm saídas autênticas. O ambiente não disponibilizou captura de imagem do terminal: o relatório registra a limitação e inclui a saída textual real da primeira execução do ESLint, sem fabricar um print.
+O relatório tem quatro páginas: capa, análise, antes/depois, resultado da ferramenta e conclusão. Inclui a [captura real do terminal](docs/evidencias/eslint-inicial.png), realizada manualmente e identificada como reprodução dos diagnósticos iniciais após a refatoração. Os 4 erros e 2 avisos permanecem exclusivamente no original preservado. As [evidências](docs/evidencias/README.md) também mantêm a saída autêntica da primeira execução e as validações finais.
 
 Para regenerar o PDF, instale `reportlab` em um ambiente Python e execute `python docs/gerar_relatorio.py` na raiz do projeto. Envie ao professor o [link deste fork](https://github.com/LuidiC/test-smelly) e o [relatório PDF](output/pdf/relatorio-test-smells-luidi-cadete-silva-1447551.pdf).
 
